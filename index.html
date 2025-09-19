@@ -3,142 +3,78 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>E-Waste Drop-off Finder</title>
-
-  <!-- Leaflet CSS for Map -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
-
-  <style>
-    /* General Page Styling */
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      display: flex;
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    /* Sidebar */
-    .sidebar {
-      width: 300px;
-      background: #f4f4f9;
-      padding: 15px;
-      box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-      overflow-y: auto;
-    }
-    .sidebar h2 {
-      margin: 0 0 15px;
-      color: #2e7d32;
-    }
-
-    /* Search Box */
-    .search-box input {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      margin-bottom: 15px;
-    }
-
-    /* Center List */
-    .center-card {
-      background: white;
-      padding: 10px;
-      margin-bottom: 10px;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
-    .center-card:hover {
-      transform: scale(1.02);
-      background: #e8f5e9;
-    }
-    .center-card h3 {
-      margin: 0;
-      color: #1b5e20;
-    }
-    .center-card p {
-      margin: 2px 0;
-      font-size: 14px;
-    }
-
-    /* Map Container */
-    #map {
-      flex: 1;
-      height: 100%;
-    }
-  </style>
+  <title>Environment & Sustainability Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body>
+<body class="bg-gradient-to-br from-green-50 via-emerald-100 to-teal-200 min-h-screen font-sans">
+  <!-- Header -->
+  <header class="text-center py-12 bg-gradient-to-r from-green-700 via-emerald-600 to-green-500 text-white shadow-xl">
+    <h1 class="text-5xl font-extrabold tracking-wide drop-shadow-lg flex justify-center items-center gap-3">
+      <i data-lucide="globe" class="w-12 h-12 text-yellow-300"></i>
+      Environment & Sustainability Hub
+    </h1>
+    <p class="mt-4 text-xl opacity-90">🌱 Innovative tools for a greener campus life 🌱</p>
+  </header>
 
-  <!-- Sidebar Section -->
-  <div class="sidebar">
-    <h2>♻️ E-Waste Drop-off Finder</h2>
+  <!-- Dashboard -->
+  <main class="max-w-7xl mx-auto py-14 px-6">
+    <div class="flex flex-wrap justify-center gap-10">
+      <!-- Card 1 -->
+      <div class="w-80 bg-gradient-to-br from-green-200 to-green-400 rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition transform duration-300 p-6 flex flex-col text-white">
+        <div class="flex items-center gap-3 mb-4">
+          <i data-lucide="recycle" class="w-8 h-8 text-white"></i>
+          <h2 class="text-2xl font-bold">E-Waste Drop-off Finder</h2>
+        </div>
+        <p class="flex-1">Find safe and verified e-waste collection centers in Patna on an interactive map.</p>
+        <a href="Ewaste.html" class="absolute bottom-6 left-1/2 -translate-x-1/2">
+      <button class="mt-5 bg-white text-green-700 font-semibold py-2 px-5 rounded-full shadow-md hover:bg-yellow-200 hover:text-green-800 transition">Open Tool</button></a>
+      </div>
 
-    <!-- Search Box -->
-    <div class="search-box">
-      <input type="text" id="searchInput" placeholder="Search by name or area...">
+      <!-- Card 2 -->
+      
+      <!-- Card 3 -->
+      <div class="w-80 bg-gradient-to-br from-blue-200 via-sky-300 to-indigo-400 rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition transform duration-300 p-6 flex flex-col text-white">
+        <div class="flex items-center gap-3 mb-4">
+          <i data-lucide="timer" class="w-8 h-8 text-yellow-300"></i>
+          <h2 class="text-2xl font-bold">Water Wastage Timer</h2>
+        </div>
+        <p class="flex-1">Use preset timers with audio/visual cues for brushing, washing, and dishes.</p>
+         <a href="WaterwastageTimer.html" >
+        <button class="mt-5 bg-yellow-300 text-blue-900 font-semibold py-2 px-5 rounded-full shadow-md hover:bg-yellow-400 hover:text-blue-950 transition">Open Tool</button></a>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="w-80 bg-gradient-to-br from-pink-200 via-purple-300 to-pink-400 rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition transform duration-300 p-6 flex flex-col text-gray-900">
+        <div class="flex items-center gap-3 mb-4">
+          <i data-lucide="shopping-bag" class="w-8 h-8 text-pink-700"></i>
+          <h2 class="text-2xl font-bold">Fast Fashion Alternative Finder</h2>
+        </div>
+        <p class="flex-1">Discover local thrift stores, repair shops, and ethical fashion brands.</p>
+        <a href="FastfashionFinder.html" class="absolute bottom-6 left-1/2 -translate-x-1/2">
+        <button class="mt-5 bg-purple-700 text-white font-semibold py-2 px-5 rounded-full shadow-md hover:bg-purple-900 transition">Open Tool</button></a>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="w-80 bg-gradient-to-br from-teal-200 via-emerald-300 to-teal-400 rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition transform duration-300 p-6 flex flex-col text-gray-900">
+        <div class="flex items-center gap-3 mb-4">
+          <i data-lucide="calendar-check" class="w-8 h-8 text-emerald-700"></i>
+          <h2 class="text-2xl font-bold">Green Event Planner</h2>
+        </div>
+        <p class="flex-1">Plan eco-friendly events with a checklist and green score calculator.</p>
+        <a href="GreenEvent.html" >
+        <button class="mt-5 bg-emerald-700 text-white font-semibold py-2 px-5 rounded-full shadow-md hover:bg-emerald-900 transition">Open Tool</button></a>
+      </div>
     </div>
+  </main>
 
-    <!-- Centers List -->
-    <div id="centerList"></div>
-  </div>
-
-  <!-- Map Section -->
-  <div id="map"></div>
-
-  <!-- Leaflet JS -->
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <!-- Footer -->
+  <footer class="text-center py-10 bg-gradient-to-r from-green-700 via-emerald-600 to-green-500 text-white mt-16 shadow-inner">
+    <p class="tracking-wide text-lg">🌱 Made with love for a Sustainable Future  </p>
+  </footer>
 
   <script>
-    // Hardcoded Center Data (MVP)
-    const centers = [
-      { name: "EcoRecycle Center", lat: 25.612, lng: 85.158, address: "Bailey Road, Patna", contact: "9876543210" },
-      { name: "GreenTech E-Waste", lat: 25.615, lng: 85.145, address: "Boring Road, Patna", contact: "9834567890" },
-      { name: "SmartBin Hub", lat: 25.601, lng: 85.120, address: "Kankarbagh, Patna", contact: "9123456789" },
-      { name: "RecyclePatna", lat: 25.620, lng: 85.150, address: "Patliputra Colony", contact: "9765432109" },
-    ];
-
-    // Initialize Map
-    const map = L.map('map').setView([25.61, 85.15], 13);
-
-    // Map Tiles (OpenStreetMap)
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap contributors'
-    }).addTo(map);
-
-    // Add Markers for Each Center
-    centers.forEach(center => {
-      const marker = L.marker([center.lat, center.lng]).addTo(map);
-      marker.bindPopup(`<b>${center.name}</b><br>${center.address}<br>📞 ${center.contact}`);
-    });
-
-    // Populate Sidebar List
-    const listContainer = document.getElementById('centerList');
-    function renderCenters(filteredCenters) {
-      listContainer.innerHTML = '';
-      filteredCenters.forEach(center => {
-        const card = document.createElement('div');
-        card.className = 'center-card';
-        card.innerHTML = `<h3>${center.name}</h3>
-                          <p>${center.address}</p>
-                          <p>📞 ${center.contact}</p>`;
-        card.onclick = () => map.setView([center.lat, center.lng], 15);
-        listContainer.appendChild(card);
-      });
-    }
-    renderCenters(centers);
-
-    // Search Functionality
-    document.getElementById('searchInput').addEventListener('input', e => {
-      const query = e.target.value.toLowerCase();
-      const filtered = centers.filter(c =>
-        c.name.toLowerCase().includes(query) ||
-        c.address.toLowerCase().includes(query)
-      );
-      renderCenters(filtered);
-    });
+    lucide.createIcons();
   </script>
 </body>
 </html>

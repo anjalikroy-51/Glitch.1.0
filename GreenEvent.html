@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Green Event Planner</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-gradient-to-br from-green-100 via-emerald-200 to-teal-300 min-h-screen font-sans">
+
+    <header class="text-center py-12 bg-gradient-to-r from-emerald-700 via-teal-600 to-emerald-500 text-white shadow-xl">
+        <h1 class="text-4xl font-extrabold tracking-wide drop-shadow-lg">
+            Green Event Planner
+        </h1>
+        <p class="mt-2 text-xl opacity-90">Plan your next event with the planet in mind</p>
+    </header>
+
+    <main class="max-w-4xl mx-auto py-10 px-6">
+        <div class="bg-white rounded-3xl shadow-2xl p-8 lg:p-12">
+            
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-800">Your Green Score:</h2>
+                <div class="relative w-full h-8 bg-gray-200 rounded-full mt-4 overflow-hidden">
+                    <div id="green-score-bar" class="absolute h-full bg-emerald-500 transition-all duration-500" style="width: 0%;"></div>
+                    <span id="green-score-text" class="absolute w-full h-full flex items-center justify-center font-bold text-gray-700">0%</span>
+                </div>
+            </div>
+
+            <div id="checklist">
+                </div>
+        </div>
+    </main>
+
+    <footer class="text-center py-6 mt-16 text-gray-600">
+        <p>A greener world, one event at a time. 🌱</p>
+    </footer>
+
+    <script>
+        const checklistData = [
+            { category: "Venue & Decor", items: [
+                { id: "item1", text: "Choose a venue with natural lighting.", weight: 15 },
+                { id: "item2", text: "Use reusable or rented decor.", weight: 10 },
+                { id: "item3", text: "Source flowers from local, organic florists.", weight: 5 }
+            ]},
+            { category: "Food & Catering", items: [
+                { id: "item4", text: "Serve locally-sourced, seasonal food.", weight: 20 },
+                { id: "item5", text: "Go meat-free or offer a vegetarian option.", weight: 15 },
+                { id: "item6", text: "Avoid single-use plastics for cutlery and plates.", weight: 15 }
+            ]},
+            { category: "Waste Management", items: [
+                { id: "item7", text: "Provide clearly labeled recycling and compost bins.", weight: 10 },
+                { id: "item8", text: "Donate leftover food to a local shelter.", weight: 10 }
+            ]}
+        ];
+
+        const checklistContainer = document.getElementById('checklist');
+        const scoreBar = document.getElementById('green-score-bar');
+        const scoreText = document.getElementById('green-score-text');
+        
+        let totalScorePossible = checklistData.flatMap(c => c.items).reduce((sum, item) => sum + item.weight, 0);
+
+        function renderChecklist() {
+            checklistContainer.innerHTML = '';
+            checklistData.forEach(cat => {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = "mb-6";
+                categoryDiv.innerHTML = `<h3 class="text-xl font-bold text-gray-700 border-b-2 border-emerald-300 pb-2 mb-4">${cat.category}</h3>`;
+                cat.items.forEach(item => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = "flex items-center mb-2";
+                    itemDiv.innerHTML = `
+                        <input type="checkbox" id="${item.id}" data-weight="${item.weight}" class="form-checkbox text-emerald-500 w-5 h-5">
+                        <label for="${item.id}" class="ml-3 text-gray-700">${item.text}</label>
+                    `;
+                    categoryDiv.appendChild(itemDiv);
+                });
+                checklistContainer.appendChild(categoryDiv);
+            });
+            // Add event listeners to newly created checkboxes
+            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                checkbox.addEventListener('change', updateScore);
+            });
+        }
+
+        function updateScore() {
+            let currentScore = 0;
+            document.querySelectorAll('input[type="checkbox"]:checked').forEach(checkbox => {
+                currentScore += parseInt(checkbox.dataset.weight);
+            });
+            const percentage = (currentScore / totalScorePossible) * 100;
+            scoreBar.style.width = `${percentage}%`;
+            scoreText.textContent = `${Math.round(percentage)}%`;
+        }
+
+        // Initial render of the checklist
+        renderChecklist();
+    </script>
+</body>
+</html>

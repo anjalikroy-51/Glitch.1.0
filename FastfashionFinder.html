@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fast Fashion Alternative Finder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-gradient-to-br from-purple-100 to-pink-200 min-h-screen font-sans">
+
+    <header class="text-center py-12 bg-gradient-to-r from-pink-700 via-purple-600 to-pink-500 text-white shadow-xl">
+        <h1 class="text-4xl font-extrabold tracking-wide drop-shadow-lg">
+            Fast Fashion Alternative Finder
+        </h1>
+        <p class="mt-2 text-xl opacity-90">Discover a better way to shop</p>
+    </header>
+
+    <main class="max-w-6xl mx-auto py-10 px-6">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+            <div class="relative w-full md:w-1/2">
+                <input id="search-bar" type="text" placeholder="Search for stores or brands..." class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 transition">
+                <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+            </div>
+            <div class="flex flex-wrap gap-2 md:gap-4">
+                <button onclick="filterResults('all')" class="px-5 py-2 rounded-full font-semibold transition bg-purple-500 text-white hover:bg-purple-700">All</button>
+                <button onclick="filterResults('thrift')" class="px-5 py-2 rounded-full font-semibold transition bg-white text-purple-700 border border-purple-500 hover:bg-purple-100">Thrift Stores</button>
+                <button onclick="filterResults('repair')" class="px-5 py-2 rounded-full font-semibold transition bg-white text-purple-700 border border-purple-500 hover:bg-purple-100">Repair Shops</button>
+            </div>
+        </div>
+        
+        <div id="results-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            </div>
+    </main>
+
+    <footer class="text-center py-6 mt-16 text-gray-600">
+        <p>Fashion with a purpose, for a sustainable future.</p>
+    </footer>
+
+    <script>
+        const locations = [
+            { name: "Vintage Vogue", category: "thrift", description: "Curated vintage clothing from the 80s and 90s.", address: "123 Old Street", phone: "987-654-3210" },
+            { name: "The Seamstress Shop", category: "repair", description: "Expert tailoring and repair services for all your clothes.", address: "456 Main Road", phone: "987-654-3211" },
+            { name: "Eco Threads", category: "ethical", description: "Sustainable and ethically sourced clothing brand.", address: "789 Green Blvd", phone: "987-654-3212" },
+            { name: "Second Chance Style", category: "thrift", description: "Affordable pre-loved clothes and accessories.", address: "321 New Street", phone: "987-654-3213" },
+        ];
+
+        const resultsGrid = document.getElementById('results-grid');
+        const searchBar = document.getElementById('search-bar');
+
+        function createCard(location) {
+            return `
+                <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-1 transition transform duration-300 p-6 border border-gray-200">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-2">${location.name}</h2>
+                    <p class="text-purple-600 font-semibold mb-2">${location.category.toUpperCase()}</p>
+                    <p class="text-gray-600 mb-4">${location.description}</p>
+                    <div class="flex items-center text-gray-500 mb-2">
+                        <i data-lucide="map-pin" class="w-4 h-4 mr-2"></i>
+                        <span>${location.address}</span>
+                    </div>
+                    <div class="flex items-center text-gray-500">
+                        <i data-lucide="phone" class="w-4 h-4 mr-2"></i>
+                        <span>${location.phone}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderCards(filteredLocations) {
+            resultsGrid.innerHTML = '';
+            filteredLocations.forEach(location => {
+                resultsGrid.innerHTML += createCard(location);
+            });
+            lucide.createIcons(); // Re-render icons after adding new HTML
+        }
+
+        function filterResults(category) {
+            let filteredLocations = locations;
+            if (category !== 'all') {
+                filteredLocations = locations.filter(loc => loc.category === category);
+            }
+            renderCards(filteredLocations);
+        }
+
+        searchBar.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredLocations = locations.filter(loc => 
+                loc.name.toLowerCase().includes(searchTerm) || 
+                loc.description.toLowerCase().includes(searchTerm)
+            );
+            renderCards(filteredLocations);
+        });
+
+        // Initial render
+        renderCards(locations);
+        
+    </script>
+</body>
+</html>

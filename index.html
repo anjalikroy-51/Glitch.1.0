@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-Waste Drop-off Finder</title>
+
+  <!-- Leaflet CSS for Map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+
+  <style>
+    /* General Page Styling */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 300px;
+      background: #f4f4f9;
+      padding: 15px;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+      overflow-y: auto;
+    }
+    .sidebar h2 {
+      margin: 0 0 15px;
+      color: #2e7d32;
+    }
+
+    /* Search Box */
+    .search-box input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+
+    /* Center List */
+    .center-card {
+      background: white;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .center-card:hover {
+      transform: scale(1.02);
+      background: #e8f5e9;
+    }
+    .center-card h3 {
+      margin: 0;
+      color: #1b5e20;
+    }
+    .center-card p {
+      margin: 2px 0;
+      font-size: 14px;
+    }
+
+    /* Map Container */
+    #map {
+      flex: 1;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar Section -->
+  <div class="sidebar">
+    <h2>♻️ E-Waste Drop-off Finder</h2>
+
+    <!-- Search Box -->
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search by name or area...">
+    </div>
+
+    <!-- Centers List -->
+    <div id="centerList"></div>
+  </div>
+
+  <!-- Map Section -->
+  <div id="map"></div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <script>
+    // Hardcoded Center Data (MVP)
+    const centers = [
+      { name: "EcoRecycle Center", lat: 25.612, lng: 85.158, address: "Bailey Road, Patna", contact: "9876543210" },
+      { name: "GreenTech E-Waste", lat: 25.615, lng: 85.145, address: "Boring Road, Patna", contact: "9834567890" },
+      { name: "SmartBin Hub", lat: 25.601, lng: 85.120, address: "Kankarbagh, Patna", contact: "9123456789" },
+      { name: "RecyclePatna", lat: 25.620, lng: 85.150, address: "Patliputra Colony", contact: "9765432109" },
+    ];
+
+    // Initialize Map
+    const map = L.map('map').setView([25.61, 85.15], 13);
+
+    // Map Tiles (OpenStreetMap)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Add Markers for Each Center
+    centers.forEach(center => {
+      const marker = L.marker([center.lat, center.lng]).addTo(map);
+      marker.bindPopup(`<b>${center.name}</b><br>${center.address}<br>📞 ${center.contact}`);
+    });
+
+    // Populate Sidebar List
+    const listContainer = document.getElementById('centerList');
+    function renderCenters(filteredCenters) {
+      listContainer.innerHTML = '';
+      filteredCenters.forEach(center => {
+        const card = document.createElement('div');
+        card.className = 'center-card';
+        card.innerHTML = `<h3>${center.name}</h3>
+                          <p>${center.address}</p>
+                          <p>📞 ${center.contact}</p>`;
+        card.onclick = () => map.setView([center.lat, center.lng], 15);
+        listContainer.appendChild(card);
+      });
+    }
+    renderCenters(centers);
+
+    // Search Functionality
+    document.getElementById('searchInput').addEventListener('input', e => {
+      const query = e.target.value.toLowerCase();
+      const filtered = centers.filter(c =>
+        c.name.toLowerCase().includes(query) ||
+        c.address.toLowerCase().includes(query)
+      );
+      renderCenters(filtered);
+    });
+  </script>
+</body>
+</html>

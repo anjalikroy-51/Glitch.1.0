@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Wastage Timer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .progress-ring__circle {
+            transition: stroke-dashoffset 0.35s;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-100 to-cyan-200 min-h-screen font-sans flex flex-col items-center justify-center p-6">
+
+    <div class="text-center mb-10">
+        <h1 class="text-5xl font-extrabold text-blue-900 mb-2">Water Timer</h1>
+        <p class="text-blue-700 text-lg">Use time wisely, save water.</p>
+    </div>
+
+    <div class="relative w-80 h-80">
+        <svg class="absolute inset-0" viewBox="0 0 100 100">
+            <circle class="text-blue-300" stroke-width="8" stroke="currentColor" fill="transparent" r="45" cx="50" cy="50" />
+            <circle id="progress-circle" class="progress-ring__circle text-blue-600" stroke-width="8" stroke="currentColor" fill="transparent" r="45" cx="50" cy="50" />
+        </svg>
+        <div class="absolute inset-0 flex items-center justify-center">
+            <h2 id="timer-display" class="text-7xl font-mono font-bold text-blue-800">02:00</h2>
+        </div>
+    </div>
+
+    <div class="mt-8 flex gap-4 flex-wrap justify-center">
+        <button onclick="setTimer(120)" class="bg-blue-500 text-white py-2 px-4 rounded-full shadow-lg hover:bg-blue-600 transition">Brushing (2 min)</button>
+        <button onclick="setTimer(20)" class="bg-blue-500 text-white py-2 px-4 rounded-full shadow-lg hover:bg-blue-600 transition">Washing (20s)</button>
+        <button onclick="setTimer(300)" class="bg-blue-500 text-white py-2 px-4 rounded-full shadow-lg hover:bg-blue-600 transition">Dishes (5 min)</button>
+    </div>
+    <div class="mt-4 flex gap-4">
+        <button id="start-btn" onclick="startTimer()" class="bg-green-500 text-white py-3 px-6 rounded-full shadow-lg hover:bg-green-600 transition">Start</button>
+        <button onclick="resetTimer()" class="bg-gray-400 text-white py-3 px-6 rounded-full shadow-lg hover:bg-gray-500 transition">Reset</button>
+    </div>
+
+    <div id="water-saved" class="mt-10 text-center text-blue-800 font-semibold text-xl">
+        You've saved 0 liters of water today! 💧
+    </div>
+
+    <script>
+        const timerDisplay = document.getElementById('timer-display');
+        const progressCircle = document.getElementById('progress-circle');
+        const waterSavedDisplay = document.getElementById('water-saved');
+        const radius = 45;
+        const circumference = 2 * Math.PI * radius;
+        
+        progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+
+        let totalTimeInSeconds;
+        let timeLeftInSeconds;
+        let timerInterval;
+        let waterSaved = 0;
+
+        function setTimer(seconds) {
+            totalTimeInSeconds = seconds;
+            timeLeftInSeconds = seconds;
+            updateDisplay();
+            updateProgressCircle();
+            clearInterval(timerInterval);
+        }
+
+        function updateDisplay() {
+            const minutes = Math.floor(timeLeftInSeconds / 60);
+            const seconds = timeLeftInSeconds % 60;
+            const displayMinutes = String(minutes).padStart(2, '0');
+            const displaySeconds = String(seconds).padStart(2, '0');
+            timerDisplay.textContent = `${displayMinutes}:${displaySeconds}`;
+        }
+
+        function updateProgressCircle() {
+            const offset = circumference - (timeLeftInSeconds / totalTimeInSeconds) * circumference;
+            progressCircle.style.strokeDashoffset = offset;
+        }
+
+        function startTimer() {
+            if (timerInterval) return; // Prevent multiple timers
+            
+            timerInterval = setInterval(() => {
+                if (timeLeftInSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    timerInterval = null;
+                    alert("Time's up! Water saved!");
+                    return;
+                }
+
+                timeLeftInSeconds--;
+                updateDisplay();
+                updateProgressCircle();
+
+                // Example calculation for water saved (assuming 1L/sec flow)
+                // This is a simplified model for a hackathon.
+                const waterWasted = totalTimeInSeconds - timeLeftInSeconds;
+                waterSaved = waterWasted;
+                waterSavedDisplay.textContent = `You've saved ${waterSaved} liters of water! 💧`;
+            }, 1000);
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            setTimer(totalTimeInSeconds || 120); // Reset to the last set time or default
+            waterSaved = 0;
+            waterSavedDisplay.textContent = `You've saved 0 liters of water! 💧`;
+        }
+
+        // Initialize with default timer
+        setTimer(120);
+    </script>
+</body>
+</html>
